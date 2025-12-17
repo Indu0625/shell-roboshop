@@ -1,6 +1,6 @@
 #!/bin/bash
-AMI_ID="09c813fb71547fc4f"
-SG_ID="0f8421f2f12b0f03f"
+AMI_ID="ami-09c813fb71547fc4f"
+SG_ID="sg-0f8421f2f12b0f03f"
 
 for instance in $@
 do
