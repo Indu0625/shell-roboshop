@@ -5,5 +5,5 @@ echo "please enter the number"
 read NUMBER
 for i in {1..10}
 do
-echo $NUMBER * $i
+echo "$NUMBER * $i"
 done
