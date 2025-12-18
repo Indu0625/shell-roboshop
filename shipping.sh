@@ -52,7 +52,7 @@ VALIDATE $? "removing existing code"
 
 unzip /tmp/shipping.zip &>>$LOG_FILE
 VALIDATE $? "unzip shipping"
-cd /app 
+
 mvn clean package &>>$LOG_FILE
 
 mv target/shipping-1.0.jar shipping.jar
