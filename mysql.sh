@@ -24,13 +24,13 @@ if [ $USERID -ne 0 ]; then
     echo -e  "$2 ....$G success $N"|tee -a $LOG_FILE
     fi
     }
-dnf install mysql-server -y
+dnf install mysql-server -y &>>$LOG_FILE
 VALIDATE $? "Installing mysql server"
-systemctl enable mysqld
+systemctl enable mysqld &>>LOG_FILE
 VALIDATE $? "enable mysqld"
-systemctl start mysqld  
+systemctl start mysqld  &>>$LOG_FILE
 VALIDATE $? "start mysqld"
-mysql_secure_installation --set-root-pass RoboShop@1
+mysql_secure_installation --set-root-pass RoboShop@1 &>>$LOG_FILE
 VALIDATE $? "setting up root password"
 
  END_TIME=$(date +%S)
