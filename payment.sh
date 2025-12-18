@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 USERID=$(id -u)
@@ -27,9 +28,9 @@ VALIDATE(){
     echo -e "$2...$G SUCCESS $N" | tee -a $LOG_FILE
     fi
 }
-dnf install maven -y &>>$LOG_FILE
+dnf install python3 gcc python3-devel -y &>>$LOG_FILE
 
-VALIDATE $? "installing maven"
+
 
 id roboshop &>>$LOG_FILE
 if [ $? -ne 0 ]; then
@@ -42,27 +43,26 @@ else
     VALIDATE $? "creating directory"
 
     VALIDATE $? "creating app directory"
-curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
-VALIDATE $? "Downloading shipping application"
+curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
+VALIDATE $? "Downloading payment application"
 cd /app 
 VALIDATE $? "changing to app directory"
 
 rm -rf /app/*
 VALIDATE $? "removing existing code"
 
-unzip /tmp/shipping.zip &>>$LOG_FILE
-VALIDATE $? "unzip shipping"
-cd /app 
+unzip /tmp/payment.zip &>>$LOG_FILE
+VALIDATE $? "unzip payment"
 mvn clean package &>>$LOG_FILE
 
-mv target/shipping-1.0.jar shipping.jar
+mv target/payment-1.0.jar payment.jar
 
-cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
+cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
 
 systemctl daemon-reload
 
-systemctl enable shipping &>>$LOG_FILE
-dnf install mysql -y  &>>$LOG_FILE
+systemctl enable payment &>>$LOG_FILE
+dnf install mysql -y 
 
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use cities' &>>$LOG_FILE
 if [ $? -ne 0 ]; then
@@ -70,6 +70,6 @@ mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOG_FILE
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOG_FILE
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOG_FILE
 else
-echo -e "shipping data already loaded...$Y SKIPPING $N"
+echo -e "payment data already loaded...$Y SKIPPING $N"
 fi
-systemctl restart shipping 
+systemctl restart payment 
