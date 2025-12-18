@@ -24,15 +24,4 @@ if [ $USERID -ne 0 ]; then
     echo -e  "$2 ....$G success $N"|tee -a $LOG_FILE
     fi
     }
-dnf install mysql-server -y
-VALIDATE $? "Installing mysql server"
-systemctl enable mysqld
-VALIDATE $? "enable mysqld"
-systemctl start mysqld  
-VALIDATE $? "start mysqld"
-mysql_secure_installation --set-root-pass RoboShop@1
-VALIDATE $? "setting up root password"
-
- END_TIME=$(date +%S)
-    TOTAL_TIME=$( ($END_TIME-$START_TIME ))
-    echo -e "script executed in:$Y $TOTAL_TIME seconds $N"
+    
