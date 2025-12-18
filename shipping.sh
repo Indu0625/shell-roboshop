@@ -38,9 +38,9 @@ VALIDATE $? "creating system user"
 else
     echo -e "User already exist...$Y SKIPPING $N"
     fi
-    mkdir /app 
+    mkdir -p /app 
     VALIDATE $? "creating directory"
-curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
+curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading shipping application"
 cd /app 
 VALIDATE $? "changing to app directory"
