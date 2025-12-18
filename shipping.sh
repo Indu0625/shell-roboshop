@@ -40,8 +40,6 @@ else
     fi
     mkdir /app 
     VALIDATE $? "creating directory"
-
-    VALIDATE $? "creating app directory"
 curl -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading shipping application"
 cd /app 
