@@ -32,9 +32,14 @@ dnf module enable nodejs:20 -y&>>$LOG_FILE
 VALIDATE $? "enabling nodeJS"
 dnf install nodejs -y&>>$LOG_FILE
 VALIDATE $? "Installing nodeJS"
+id roboshop
+if[ $? -ne 0 ]; then
 useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
 VALIDATE $? "creating system user"
-mkdir /app 
+else
+    echo "User already exist...$Y SKIPPING $N"
+    fi
+mkdir -p /app 
 VALIDATE $? "creating app directory"
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading catalogue application"
@@ -51,7 +56,7 @@ systemctl daemon-reload
 systemctl enable catalogue &>>$LOG_FILE
 VALIDATE $? "enable catalogue"
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo
+cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "copy mongo repo"
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Install mongodb client"
