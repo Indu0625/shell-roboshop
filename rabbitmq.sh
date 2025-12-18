@@ -25,19 +25,19 @@ if [ $USERID -ne 0 ]; then
     echo -e  "$2 ....$G success $N"|tee -a $LOG_FILE
     fi
     }
-    cp $SCRIPT_DIR/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
+    cp $SCRIPT_DIR/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo  &>>LOG_FILE
     VALIDATE $? "adding rabbitmq repo"
 
-dnf install rabbitmq-server -y
+dnf install rabbitmq-server -y &>>LOG_FILE
 VALIDATE $? "installing rabbitmq"
 
-systemctl enable rabbitmq-server
+systemctl enable rabbitmq-server  &>>LOG_FILE
 VALIDATE $? "enabling rabbitmq"
-systemctl start rabbitmq-server
+systemctl start rabbitmq-server  &>>LOG_FILE
 VALIDATE $? "starting rabbitmq server"
 
-rabbitmqctl add_user roboshop roboshop123
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+rabbitmqctl add_user roboshop roboshop123  &>>LOG_FILE
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"  &>>LOG_FILE
 VALIDATE $? "setting up permissions"
 
 
