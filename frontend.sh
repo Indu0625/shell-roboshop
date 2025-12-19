@@ -47,5 +47,5 @@ cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf  &>>$LOG_FILE
 
 VALIDATE $? "copying ngnix"
 
-systemctl restart nginx 
+systemctl restart nginx &>>$LOG_FILE
 VALIDATE $? "restart nginx"
