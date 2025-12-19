@@ -43,7 +43,7 @@ else
     VALIDATE $? "creating directory"
 
     VALIDATE $? "creating app directory"
-curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip &>>$LOG_FILE
+curl -o /tmp/payment.zip https://roboshop-artifacts.s3.amazonaws.com/payment-v3.zip &>>$LOG_FILE
 VALIDATE $? "Downloading payment application"
 cd /app 
 VALIDATE $? "changing to app directory"
@@ -53,23 +53,13 @@ VALIDATE $? "removing existing code"
 
 unzip /tmp/payment.zip &>>$LOG_FILE
 VALIDATE $? "unzip payment"
-mvn clean package &>>$LOG_FILE
-
-mv target/payment-1.0.jar payment.jar
+pip3 install -r requirements.txt
 
 cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
 
 systemctl daemon-reload
 
 systemctl enable payment &>>$LOG_FILE
-dnf install mysql -y 
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use cities' &>>$LOG_FILE
-if [ $? -ne 0 ]; then
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql &>>$LOG_FILE
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql &>>$LOG_FILE
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql &>>$LOG_FILE
-else
-echo -e "payment data already loaded...$Y SKIPPING $N"
-fi
+
 systemctl restart payment 
