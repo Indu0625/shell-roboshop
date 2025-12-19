@@ -43,7 +43,7 @@ unzip /tmp/frontend.zip &>>LOG_FILE
 
 VALIDATE $? "downloading frontend"
 
-cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf &>>LOG_FILE
+cp $SCRIPT_DIR/nginx.conf /etc/nginx/conf.d  &>>LOG_FILE
 
 VALIDATE $? "copying ngnix"
 
