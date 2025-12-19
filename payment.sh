@@ -39,7 +39,7 @@ VALIDATE $? "creating system user"
 else
     echo -e "User already exist...$Y SKIPPING $N"
     fi
-    mkdir /app 
+    mkdir -p /app 
     VALIDATE $? "creating directory"
 
     VALIDATE $? "creating app directory"
@@ -53,7 +53,7 @@ VALIDATE $? "removing existing code"
 
 unzip /tmp/payment.zip &>>$LOG_FILE
 VALIDATE $? "unzip payment"
-pip3 install -r requirements.txt
+pip3 install -r requirements.txt &>>$LOG_FILE
 
 cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service
 
