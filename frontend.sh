@@ -42,7 +42,7 @@ cd /usr/share/nginx/html
 unzip /tmp/frontend.zip &>>$LOG_FILE
 
 VALIDATE $? "downloading frontend"
-
+rm -rf /etc/nginx/nginx.conf 
 cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf  &>>$LOG_FILE
 
 VALIDATE $? "copying ngnix"
